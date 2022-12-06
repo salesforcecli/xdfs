@@ -21,7 +21,7 @@ export const UPDATE_DISABLED_INSTALLER =
   'Manual and automatic CLI updates have been disabled by setting "SFDX_AUTOUPDATE_DISABLE=true". ' +
   'To check for a new version, unset that environment variable.';
 
-export const UPDATE_DISABLED_NPM = 'Use "npm update --global sfdx-cli" to update npm-based installations.';
+export const UPDATE_DISABLED_NPM = 'Use "npm update --global @salesforce/xdfs" to update npm-based installations.';
 
 export const UPDATE_DISABLED_DEMO =
   'Manual and automatic CLI updates have been disabled in DEMO mode. ' +

@@ -48,13 +48,13 @@ jobs:
           file: dockerfiles/Dockerfile_slim
           build-args: |
             DOWNLOAD_URL=${{ steps.version-info.outputs.url }}
-          tags: salesforce/salesforcedx:latest-rc-slim, salesforce/salesforcedx:${{ steps.version-info.outputs.version }}-slim
+          tags: salesforce/salesforcedx:delta-slim, salesforce/salesforcedx:${{ steps.version-info.outputs.version }}-delta-slim
 
   verify:
     needs: buildPush
     runs-on: ubuntu-latest
     container:
-      image: salesforce/salesforcedx:${{ inputs.version }}-slim
+      image: salesforce/salesforcedx:${{ inputs.version }}-delta-slim
     steps:
       - name: verify sfdx, java
         # without bash this will fail.  Not sure what the default shell is but it doesn't like the [[(())]] bashism
@@ -64,11 +64,11 @@ jobs:
           sfdx version
           SFDX_CLI_VERSION=$(sfdx version)
           JAVA_VERSION=$(java --version | head -n 1)
-          if [[ ((`echo $SFDX_CLI_VERSION | grep -c "sfdx-cli/"` > 0))]]
+          if [[ ((`echo $SFDX_CLI_VERSION | grep -c "xdfs/"` > 0))]]
           then
-            echo "sfdx-cli installed -" $SFDX_CLI_VERSION
+            echo "xdfs installed -" $SFDX_CLI_VERSION
           else
-            echo "The sfdx-cli installation could not be verified"
+            echo "The xdfs installation could not be verified"
             exit 1
           fi
           if [[ ((`echo $JAVA_VERSION | grep -c "openjdk"` > 0))]]

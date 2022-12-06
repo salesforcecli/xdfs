@@ -1,12 +1,11 @@
 {
-  "name": "sfdx-cli",
-  "description": "Salesforce CLI",
-  "version": "7.180.0",
+  "name": "@salesforce/xdfs",
+  "description": "Salesforce CLI clone for testing",
+  "version": "1.0.0",
   "author": "Salesforce",
   "license": "BSD-3-Clause",
-  "bugs": "https://github.com/forcedotcom/cli/issues",
-  "homepage": "https://github.com/salesforcecli/sfdx-cli/",
-  "repository": "salesforcecli/sfdx-cli",
+  "homepage": "https://github.com/salesforcecli/xdfs/",
+  "repository": "salesforcecli/xdfs",
   "bin": {
     "sfdx": "bin/run"
   },
@@ -94,7 +93,7 @@
       "s3": {
         "bucket": "dfc-data-production",
         "indexVersionLimit": 20,
-        "folder": "media/salesforce-cli/sfdx",
+        "folder": "media/salesforce-cli/xdfs",
         "acl": " ",
         "host": "https://developer.salesforce.com"
       }
