@@ -62,7 +62,7 @@ jobs:
           node-version: lts/*
       - run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          npm dist-tag add @salesforce/xdfs"@${{ inputs.version }} ${{ inputs.tag }}
+          npm dist-tag add @salesforce/xdfs@${{ inputs.version }} ${{ inputs.tag }}
 
   channel-promote:
     needs: [ctc-open]
