@@ -1,11 +1,12 @@
 on:
   workflow_run:
     workflows:
-      - RC
-      - promote-rc-to-latest
-      - manual promote
-      - pr for rc
-      - rc tag/release
+      # - RC
+      # - promote-rc-to-latest
+      # - manual promote
+      # - pr for rc
+      # - rc tag/release
+      # - make-pr-for-nightly
     types:
       - completed
     branches:

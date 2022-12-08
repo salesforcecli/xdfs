@@ -34,14 +34,14 @@ jobs:
           file: dockerfiles/Dockerfile_full
           build-args: |
             SALESFORCE_CLI_VERSION=${{ inputs.version}}
-            SF_CLI_VERSION=latest-rc
-          tags: salesforce/salesforcedx:latest-rc-full, salesforce/salesforcedx:${{ inputs.version }}-full
+            SF_CLI_VERSION=delta
+          tags: salesforce/salesforcedx:delta-full, salesforce/salesforcedx:${{ inputs.version }}-delta-full
 
   verify:
     needs: buildPush
     runs-on: ubuntu-latest
     container:
-      image: salesforce/salesforcedx:${{ inputs.version }}-full
+      image: salesforce/salesforcedx:${{ inputs.version }}-delta-full
     steps:
       - name: verify node, sfdx, jq
         # without bash this will fail.  Not sure what the default shell is but it doesn't like the [[(())]] bashism
@@ -53,11 +53,11 @@ jobs:
           jq --help
           NODE_VERSION=$(sfdx version --verbose --json | jq '.nodeVersion')
           SFDX_CLI_VERSION=$(sfdx version --verbose --json | jq '.cliVersion')
-          if [[ ((`echo $SFDX_CLI_VERSION | grep -c "sfdx-cli/"` > 0))]]
+          if [[ ((`echo $SFDX_CLI_VERSION | grep -c "xdfs/"` > 0))]]
           then
-            echo "sfdx-cli installed -" $SFDX_CLI_VERSION
+            echo "xdfs installed -" $SFDX_CLI_VERSION
           else
-            echo "The sfdx-cli installation could not be verified"
+            echo "The xdfs installation could not be verified"
             exit 1
           fi
           if [[ ((`echo $NODE_VERSION | grep -c "v"` > 0))]]

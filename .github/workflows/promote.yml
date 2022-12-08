@@ -11,11 +11,9 @@ on:
         type: string
         required: false
         description: tag to use for docker/npm, like latest or latest-rc
-        default: latest
       channel:
         type: string
         required: true
-        default: stable
         description: channel to promote the matching tarball to (example stable, stable-rc )
       useCTC:
         type: boolean
@@ -45,12 +43,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - run: |
-          docker pull salesforce/salesforcedx:${{ inputs.version }}-slim
-          docker tag salesforce/salesforcedx:${{ inputs.version }}-slim salesforce/salesforcedx:${{ inputs.tag }}-slim
+          docker pull salesforce/salesforcedx:${{ inputs.version }}-delta-slim
+          docker tag salesforce/salesforcedx:${{ inputs.version }}-delta-slim salesforce/salesforcedx:${{ inputs.tag }}-slim
           docker push salesforce/salesforcedx:${{ inputs.tag }}-slim
 
-          docker pull salesforce/salesforcedx:${{ inputs.version }}-full
-          docker tag salesforce/salesforcedx:${{ inputs.version }}-full salesforce/salesforcedx:${{ inputs.tag }}-full
+          docker pull salesforce/salesforcedx:${{ inputs.version }}-delta-full
+          docker tag salesforce/salesforcedx:${{ inputs.version }}-delta-full salesforce/salesforcedx:${{ inputs.tag }}-full
           docker push salesforce/salesforcedx:${{ inputs.tag }}-full
 
   npm-promote:
@@ -64,7 +62,7 @@ jobs:
           node-version: lts/*
       - run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          npm dist-tag add sfdx-cli@${{ inputs.version }} ${{ inputs.tag }}
+          npm dist-tag add @salesforce/xdfs@${{ inputs.version }} ${{ inputs.tag }}
 
   channel-promote:
     needs: [ctc-open]
@@ -81,12 +79,12 @@ jobs:
         id: version-info
         with:
           version: ${{ inputs.version }}
-          npmPackage: sfdx-cli
+          npmPackage: '@salesforce/xdfs'
       - run: yarn promote --version ${{ steps.version-info.outputs.version }} --sha ${{ steps.version-info.outputs.sha }} --channel ${{ inputs.channel }} --max-age 300 --macos --win --indexes --xz
         env:
           AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-    
+
   # This job is renames the sfdx-x64.pkg that oclif v3 produces to sfdx.pkg which matches what oclif v2 produces.
   # Doing so avoids breaking changes for customers relying on the old URLs to download the CLI.
   # It can be removed once the developer site is linking to the new sfdx-x64.pkg file and the mac signing job is signing the new -x64.pkg file.

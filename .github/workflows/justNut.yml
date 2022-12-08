@@ -56,7 +56,7 @@ jobs:
         with:
           node-version: lts/*
           cache: yarn
-      - run: npm install -g sfdx-cli@latest-rc @salesforce/cli@latest-rc --omit=dev
+      - run: npm install -g @salesforce/xdfs@delta @salesforce/cli@latest-rc --omit=dev
       - run: yarn install
       - name: NUTs attempt 1
         continue-on-error: true
